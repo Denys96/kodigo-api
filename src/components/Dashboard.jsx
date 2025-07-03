@@ -18,9 +18,13 @@ export default function Dashboard() {
   const fetchData = async () => {
     try {
       const response = await getAccomodations();
-      setAccomodations(response);
+      console.log("Response de getAccomodations:", response);
+
+      // Garantizamos que siempre sea array
+      setAccomodations(Array.isArray(response) ? response : []);
       setError(null);
     } catch (err) {
+      console.error("Error en fetchData:", err);
       setError(err.message);
       if (err.message === "No hay token disponible") {
         navigate("/");
@@ -66,17 +70,20 @@ export default function Dashboard() {
     );
   }
 
-  // Calcular rango de ítems para la página actual
+  // Calculamos paginación de forma segura
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const paginatedItems = accomodations.slice(startIndex, endIndex);
-  const totalPages = Math.ceil(accomodations.length / itemsPerPage);
+  const paginatedItems = Array.isArray(accomodations)
+    ? accomodations.slice(startIndex, endIndex)
+    : [];
+  const totalPages = Math.ceil(
+    (Array.isArray(accomodations) ? accomodations.length : 0) / itemsPerPage
+  );
 
   const goToPage = (page) => {
     setCurrentPage(page);
   };
 
-  // Texto dinámico según vista activa
   const sectionTitle =
     activeView === "accommodations" ? "Alojamientos" : "Reservaciones";
   const newButtonLabel =
