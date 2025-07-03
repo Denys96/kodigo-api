@@ -1,13 +1,10 @@
 // src/components/Sidebar.jsx
 import React from "react";
-import { useNavigate, Link } from "react-router-dom";
 
-export default function Sidebar() {
-  const navigate = useNavigate();
-
+export default function Sidebar({ activeView, setActiveView }) {
   const handleLogout = () => {
     sessionStorage.removeItem("apiToken");
-    navigate("/");
+    window.location.href = "/";
   };
 
   return (
@@ -20,22 +17,30 @@ export default function Sidebar() {
         <nav className="mt-4">
           <ul className="space-y-2">
             <li>
-              <Link
-                to="#"
-                className="flex items-center px-4 py-2 text-gray-900 bg-blue-100 rounded-r-full font-medium"
+              <button
+                onClick={() => setActiveView("accommodations")}
+                className={`w-full text-left flex items-center px-4 py-2 rounded-r-full font-medium ${
+                  activeView === "accommodations"
+                    ? "text-gray-900 bg-blue-100"
+                    : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+                }`}
               >
                 <i className="fas fa-home mr-3"></i>
                 Alojamientos
-              </Link>
+              </button>
             </li>
             <li>
-              <a
-                href="#"
-                className="flex items-center px-4 py-2 text-gray-600 hover:bg-gray-100 hover:text-gray-900 rounded-r-full"
+              <button
+                onClick={() => setActiveView("reservations")}
+                className={`w-full text-left flex items-center px-4 py-2 rounded-r-full font-medium ${
+                  activeView === "reservations"
+                    ? "text-gray-900 bg-blue-100"
+                    : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+                }`}
               >
                 <i className="fas fa-calendar-alt mr-3"></i>
                 Reservaciones
-              </a>
+              </button>
             </li>
           </ul>
         </nav>
