@@ -62,36 +62,45 @@ export default function ReservationCalendar() {
   return (
     <div>
       {/* Filtros */}
-      <div className="flex flex-wrap gap-4 mb-4">
-        <select
-          onChange={(e) => setSelectedAccommodation(e.target.value)}
-          className="border rounded px-2 py-1"
-        >
-          <option value="all">Todos los alojamientos</option>
-          {accommodations.map((a) => (
-            <option key={a.id} value={a.id}>
-              {a.name}
-            </option>
-          ))}
-        </select>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <div className="flex flex-col w-full">
+          <label className="text-sm text-gray-600 mb-1">Alojamiento</label>
+          <select
+            onChange={(e) => setSelectedAccommodation(e.target.value)}
+            className="w-full border border-gray-300 rounded px-3 py-2"
+          >
+            <option value="all">Todos los alojamientos</option>
+            {accommodations.map((a) => (
+              <option key={a.id} value={a.id}>
+                {a.name}
+              </option>
+            ))}
+          </select>
+        </div>
 
-        <select
-          onChange={(e) => setSelectedStatus(e.target.value)}
-          className="border rounded px-2 py-1"
-        >
-          <option value="all">Todos los estados</option>
-          <option value="confirmed">Confirmada</option>
-          <option value="pending">Pendiente</option>
-          <option value="cancelled">Cancelada</option>
-        </select>
+        <div className="flex flex-col w-full">
+          <label className="text-sm text-gray-600 mb-1">Estado</label>
+          <select
+            onChange={(e) => setSelectedStatus(e.target.value)}
+            className="w-full border border-gray-300 rounded px-3 py-2"
+          >
+            <option value="all">Todos los estados</option>
+            <option value="confirmed">Confirmada</option>
+            <option value="pending">Pendiente</option>
+            <option value="cancelled">Cancelada</option>
+          </select>
+        </div>
 
-        <input
-          type="text"
-          placeholder="Nombre del huésped..."
-          value={searchGuest}
-          onChange={(e) => setSearchGuest(e.target.value)}
-          className="border rounded px-2 py-1"
-        />
+        <div className="flex flex-col w-full">
+          <label className="text-sm text-gray-600 mb-1">Buscar huésped</label>
+          <input
+            type="text"
+            placeholder="Nombre del huésped..."
+            value={searchGuest}
+            onChange={(e) => setSearchGuest(e.target.value)}
+            className="w-full border border-gray-300 rounded px-3 py-2"
+          />
+        </div>
       </div>
 
       {/* Tabla semanal */}
@@ -100,7 +109,10 @@ export default function ReservationCalendar() {
           <thead>
             <tr>
               {days.map((day, i) => (
-                <th key={i} className="text-left p-3 border-b">
+                <th
+                  key={i}
+                  className="text-left p-3 border-b border-gray-300 text-gray-600"
+                >
                   {day}
                 </th>
               ))}
@@ -109,13 +121,32 @@ export default function ReservationCalendar() {
           <tbody>
             <tr>
               {days.map((_, i) => (
-                <td key={i} className="align-top p-2 border-t h-40 w-48">
+                <td
+                  key={i}
+                  className="align-top p-2 border-t border-gray-300 h-40 w-48"
+                >
                   {renderReservationsByDay(i)}
                 </td>
               ))}
             </tr>
           </tbody>
         </table>
+      </div>
+
+      {/* Leyenda de estados */}
+      <div className="flex items-center gap-6 mt-4 px-2">
+        <div className="flex items-center gap-2">
+          <span className="w-3 h-3 rounded-full bg-green-300"></span>
+          <span className="text-sm text-gray-700">Confirmada</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="w-3 h-3 rounded-full bg-yellow-300"></span>
+          <span className="text-sm text-gray-700">Pendiente</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="w-3 h-3 rounded-full bg-red-300"></span>
+          <span className="text-sm text-gray-700">Cancelada</span>
+        </div>
       </div>
     </div>
   );
