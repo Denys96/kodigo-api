@@ -4,6 +4,8 @@ import AccommodationCard from "../components/AccommodationCard";
 import Sidebar from "../components/Sidebar";
 import { useNavigate } from "react-router-dom";
 import { getAccomodations } from "../services/accomodationServices";
+import ReservationCalendar from "./ReservationCalendar";
+
 
 export default function Dashboard() {
   const [accomodations, setAccomodations] = useState([]);
@@ -153,9 +155,9 @@ export default function Dashboard() {
 
         {/* Vista Reservaciones */}
         {activeView === "reservations" && (
-          <p className="text-gray-500">
-            Aquí se mostrarán las reservaciones.
-          </p>
+          <>
+          <ReservationCalendar />
+        </>
         )}
       </main>
     </div>
