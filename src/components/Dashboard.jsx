@@ -6,6 +6,7 @@ import Sidebar from "../components/Sidebar";
 import { getAccomodations } from "../services/accomodationServices";
 import ReservationCalendar from "./ReservationCalendar";
 
+
 export default function Dashboard() {
   const [accomodations, setAccomodations] = useState([]);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
