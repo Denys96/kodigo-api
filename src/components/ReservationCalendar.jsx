@@ -23,7 +23,7 @@ export default function ReservationCalendar() {
     userId: "",
     status: "pending"
   });
-  
+
   const navigate = useNavigate();
   const monthNames = [
     "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
@@ -35,26 +35,26 @@ export default function ReservationCalendar() {
       try {
         setLoading(true);
         setError(null);
-        
+
         // Obtener alojamientos
         const acc = await getAccomodations();
         setAccommodations(acc);
-        
+
         // Calcular rango de fechas del mes actual
         const startOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
         const endOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
-        
+
         const startDate = formatDate(startOfMonth);
         const endDate = formatDate(endOfMonth);
-        
+
         // Obtener reservaciones solo para el mes actual
         const res = await getBookingsForCalendar(
           selectedAccommodation === "all" ? null : selectedAccommodation,
           startDate,
           endDate
         );
-        
-        // Enriquecer datos y filtrar solo las reservaciones del mes actual
+
+        // Enriquecer datos
         const enrichedReservations = res
           .filter(r => {
             const checkIn = new Date(r.check_in_date);
@@ -64,19 +64,16 @@ export default function ReservationCalendar() {
               (checkOut.getMonth() === currentDate.getMonth() && checkOut.getFullYear() === currentDate.getFullYear())
             );
           })
-          .map(r => {
-            const accommodation = acc.find(a => a.id === r.id_accomodation);
-            return {
-              ...r,
-              accommodationId: r.id_accomodation,
-              startDate: r.check_in_date,
-              endDate: r.check_out_date,
-              guestName: r.user || "Invitado",
-              accommodationName: accommodation ? accommodation.name : "Alojamiento desconocido",
-              status: r.status?.toLowerCase() || "pending"
-            };
-          });
-        
+          .map(r => ({
+            ...r,
+            startDate: r.check_in_date,
+            endDate: r.check_out_date,
+            guestName: r.user || "Invitado",
+            accommodationName: r.accomodation || "Alojamiento desconocido",
+            accomodationId: r.accomodation_id, // Añadido para el filtrado
+            status: r.status?.toLowerCase() || "pending"
+          }));
+
         setReservations(enrichedReservations);
       } catch (err) {
         console.error("Error fetching data:", err);
@@ -97,43 +94,37 @@ export default function ReservationCalendar() {
     e.preventDefault();
     try {
       const result = await postBooking(newBooking);
-      
+
       if (result) {
-        // Mostrar alerta de éxito
         await Swal.fire({
           title: '¡Reserva creada!',
           text: 'La reservación se ha guardado correctamente',
           icon: 'success',
           confirmButtonText: 'Volver al calendario'
         });
-        
-        // Recargar los datos
+
         const startOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
         const endOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
-        
+
         const startDate = formatDate(startOfMonth);
         const endDate = formatDate(endOfMonth);
-        
+
         const res = await getBookingsForCalendar(
           selectedAccommodation === "all" ? null : selectedAccommodation,
           startDate,
           endDate
         );
-        
-        // Enriquecer datos
-        const enrichedReservations = res.map(r => {
-          const accommodation = accommodations.find(a => a.id === r.id_accomodation);
-          return {
-            ...r,
-            accommodationId: r.id_accomodation,
-            startDate: r.check_in_date,
-            endDate: r.check_out_date,
-            guestName: r.user || "Invitado",
-            accommodationName: accommodation ? accommodation.name : "Alojamiento desconocido",
-            status: r.status?.toLowerCase() || "pending"
-          };
-        });
-        
+
+        const enrichedReservations = res.map(r => ({
+          ...r,
+          startDate: r.check_in_date,
+          endDate: r.check_out_date,
+          guestName: r.user || "Invitado",
+          accommodationName: r.accomodation || "Alojamiento desconocido",
+          accomodationId: r.accomodation_id, // Añadido para el filtrado
+          status: r.status?.toLowerCase() || "pending"
+        }));
+
         setReservations(enrichedReservations);
         setShowBookingForm(false);
       }
@@ -153,33 +144,33 @@ export default function ReservationCalendar() {
       const matchesStatus = selectedStatus === "all" || res.status === selectedStatus;
       const matchesGuest = searchGuest === "" || 
         res.guestName.toLowerCase().includes(searchGuest.toLowerCase());
-      return matchesStatus && matchesGuest;
+      const matchesAccommodation = selectedAccommodation === "all" || 
+        res.accomodationId == selectedAccommodation; // Comparación con ID
+      
+      return matchesStatus && matchesGuest && matchesAccommodation;
     });
   };
 
   const groupReservationsByDay = () => {
     const grouped = {};
     const filteredReservations = getFilteredReservations();
-    
+
     filteredReservations.forEach(res => {
       const start = new Date(res.startDate);
       const end = new Date(res.endDate);
-      
-      // Solo procesar si la reserva está en el mes actual
+
       if (start.getMonth() === currentDate.getMonth() && start.getFullYear() === currentDate.getFullYear()) {
-        // Agregar para cada día de la reservación
         for (let day = start.getDate(); day <= end.getDate(); day++) {
           if (!grouped[day]) {
             grouped[day] = [];
           }
-          // Solo agregar si no existe ya para evitar duplicados
           if (!grouped[day].some(r => r.id === res.id)) {
             grouped[day].push(res);
           }
         }
       }
     });
-    
+
     return grouped;
   };
 
@@ -233,8 +224,6 @@ export default function ReservationCalendar() {
           Siguiente &rarr;
         </button>
       </div>
-
-
 
       {/* Formulario de nueva reserva (modal) */}
       {showBookingForm && (
@@ -390,8 +379,8 @@ export default function ReservationCalendar() {
         {Array.from({ length: daysInMonth }, (_, i) => {
           const day = i + 1;
           const reservationsForDay = groupedReservations[day] || [];
-          const isToday = new Date().getDate() === day && 
-                          new Date().getMonth() === currentDate.getMonth() && 
+          const isToday = new Date().getDate() === day &&
+                          new Date().getMonth() === currentDate.getMonth() &&
                           new Date().getFullYear() === currentDate.getFullYear();
 
           return (
@@ -411,11 +400,11 @@ export default function ReservationCalendar() {
                   </span>
                 )}
               </div>
-              
+
               {reservationsForDay.map((res, idx) => {
                 let bgColor = "bg-gray-100";
                 let borderColor = "border-gray-200";
-                
+
                 if (res.status === "confirmed") {
                   bgColor = "bg-green-100";
                   borderColor = "border-green-200";
