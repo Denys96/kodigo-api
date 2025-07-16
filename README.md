@@ -1,12 +1,34 @@
-# React + Vite
+# 🚀 Kodigo Music SPA
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Kodigo Music SPA es una **Single Page Application (SPA) moderna y responsiva** creada con ReactJS. Está inspirada en plataformas populares de música digital como Spotify, Deezer y Apple Music, ofreciendo una experiencia de usuario atractiva y fluida. El proyecto incluye rutas dinámicas y componentes reutilizables, ideal para profundizar en conceptos avanzados de desarrollo frontend.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🧠 Tecnologías y aprendizajes
 
-## Expanding the ESLint configuration
+- ReactJS con componentes funcionales y hooks  
+- React Router DOM para navegación y rutas dinámicas  
+- styled-components para diseño personalizado y responsivo  
+- React Hook Form para validación manual de formularios  
+- Modularización y organización del código para escalabilidad  
+- Buenas prácticas en estructura de carpetas y organización del proyecto  
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## 🌐 Demo en línea
+
+[Ver proyecto en Vercel](https://kodigo-api-wheat.vercel.app/)
+
+---
+
+## 📸 Capturas
+
+<p align="center">
+  <img src="/public/img/997shots_so.png" alt="Home Kodigo Music" width="300" />
+  <img src="/public/img/126shots_so.png" alt="Library Kodigo Music" width="300" />
+</p>
+
+<p align="center">
+  <img src="/public/img/689shots_so.png" alt="Login Kodigo Music" width="300" />
+  <img src="/public/img/150shots_so.png" alt="Vista Responsive" width="300" />
+</p>
