@@ -32,11 +32,10 @@ Kodigo Music SPA es una **Single Page Application (SPA) moderna y responsiva** c
 ## 📸 Capturas
 
 <p align="center">
-  <img src="/public/img/997shots_so.png" alt="Home Kodigo Music" width="300" />
-  <img src="/public/img/126shots_so.png" alt="Library Kodigo Music" width="300" />
+  <img src="733_1x_shots_so.png" alt="Home " width="300" />
+  <img src="21shots_so.png" alt="Reservation" width="300" />
 </p>
 
 <p align="center">
-  <img src="/public/img/689shots_so.png" alt="Login Kodigo Music" width="300" />
-  <img src="/public/img/150shots_so.png" alt="Vista Responsive" width="300" />
-</p>
+  <img src="349shots_so.png" alt="Login" width="600" />
+  </p>
