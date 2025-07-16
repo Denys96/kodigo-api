@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { BrowserRouter, Route, Routes, Link } from 'react-router-dom'
 import Header from "../components/Header";
 import AccommodationCard from "../components/AccommodationCard";
 import Sidebar from "../components/Sidebar";
@@ -98,13 +99,14 @@ export default function Dashboard() {
         {/* Título y botón */}
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl font-bold text-gray-800">{sectionTitle}</h1>
-          <button
+          <Link
+            to={activeView === "accommodations" ? "/newaccommodation" : "/newbooking"}
             className="flex items-center gap-2 bg-gray-900 hover:bg-gray-800 text-white font-semibold py-2 px-4 rounded-md transition"
             onClick={() => console.log(`Crear ${newButtonLabel}`)}
           >
             <i className="fas fa-plus"></i>
             {newButtonLabel}
-          </button>
+          </Link>
         </div>
 
         {/* Vista Alojamientos */}

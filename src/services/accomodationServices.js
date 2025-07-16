@@ -26,4 +26,34 @@ const getAccomodations = async () => {
   }
 };
 
-export { getAccomodations };
+const postAccomodations = async (nameAccomodation, descriptionAccomodation, addressAccomodation) => {
+  try {
+    const token = sessionStorage.getItem('apiToken'); 
+
+    if (!token) {
+      throw new Error('No hay token disponible');
+    }
+
+    const response = await axios.post(
+      "https://apibookingsaccomodations-production.up.railway.app/api/V1/accomodation",
+      {
+        name: nameAccomodation,
+        description: descriptionAccomodation,
+        address: addressAccomodation
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      }
+    );
+    
+    return response.data;
+  } catch (error) {
+    console.error("Error al enviar los datos", error);
+    return null;
+  }
+};
+
+export { getAccomodations, postAccomodations };
