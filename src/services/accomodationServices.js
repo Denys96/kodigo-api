@@ -56,4 +56,33 @@ const postAccomodations = async (nameAccomodation, descriptionAccomodation, addr
   }
 };
 
+export const getAccommodationById = async (id) => {
+  const token = sessionStorage.getItem("apiToken");
+  const res = await fetch(`https://apibookingsaccomodations-production.up.railway.app/api/V1/accomodation/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
+  if (!res.ok) throw new Error("Error fetching accommodation");
+  return await res.json();
+};
+
+export const updateAccommodation = async (id, data) => {
+  const token = sessionStorage.getItem("apiToken");
+  const res = await fetch(`https://apibookingsaccomodations-production.up.railway.app/api/V1/accomodation/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`
+    },
+    body: JSON.stringify({
+      name: data.name,
+      description: data.description,
+      address: data.address
+    })
+  });
+  return res.ok;
+};
+
+
 export { getAccomodations, postAccomodations };

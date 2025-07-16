@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from 'styled-components';
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { postAccomodations } from "../services/accomodationServices";
 
 export default function NewAccommodation() {
@@ -8,24 +9,31 @@ export default function NewAccommodation() {
     const [success, setSuccess] = useState(false);
     const [error, setError] = useState("");
     const { register, handleSubmit, reset } = useForm();
+    const navigate = useNavigate();
 
-const onSubmit = async (data) => {
-    const { name, description, direction } = data;
+    const onSubmit = async (data) => {
+        const { name, description, direction } = data;
 
-    setUploading(true);
-    setSuccess(false);
-    setError("");
+        setUploading(true);
+        setSuccess(false);
+        setError("");
 
-    const result = await postAccomodations(name, description, direction);
+        const result = await postAccomodations(name, description, direction);
 
-    setUploading(false);
+        setUploading(false);
 
-    if (result) {
-        setSuccess(true);
-        reset(); // limpia el formulario si quieres
-    } else {
-        setError("Falló el envío a la API.");
-    }
+        if (result) {
+            setSuccess(true);
+            reset(); // limpia el formulario si quieres
+            navigate("/dashboard");
+        } else {
+            setError("Falló el envío a la API.");
+        }
+    };
+
+    const handleCancel = () => {
+        reset();
+        navigate("/dashboard");
     };
 
     return (
@@ -38,30 +46,40 @@ const onSubmit = async (data) => {
                 <ContentForm>
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <Label htmlFor="input-name">Nombre</Label>
-                        <Input type="text" id="input-name" placeholder="Nombre del alojamiento" {...register('name')} required />
+                        <Input
+                            type="text"
+                            id="input-name"
+                            placeholder="Nombre del alojamiento"
+                            {...register('name')}
+                            required
+                        />
 
                         <Label htmlFor="input-direction">Dirección</Label>
-                        <Input type="text" id="input-direction" placeholder="Dirección del alojamiento" {...register('direction')} required />
+                        <Input
+                            type="text"
+                            id="input-direction"
+                            placeholder="Dirección del alojamiento"
+                            {...register('direction')}
+                            required
+                        />
 
                         <Label htmlFor="input-description">Descripción</Label>
-                        <Textarea id="input-description" placeholder="Describe el alojamiento" required {...register('description')} />
-                        <Label htmlFor="input-description">Imagen</Label>
-                        <BoxInput>
-                            <InputFile className="box__file" type="file" name="files[]" id="file" multiple {...register('image')} required />
-                            <LabelFile htmlFor="file">
-                                <strong>Subir un imagen o arrastra y suelta</strong>
-                                <br/><span className="box__dragndrop">PNG, JPG, GIF hasta 10MB</span>.
-                            </LabelFile>
-                        </BoxInput>
+                        <Textarea
+                            id="input-description"
+                            placeholder="Describe el alojamiento"
+                            required
+                            {...register('description')}
+                        />
 
-                        {uploading && <Status className="box__uploading">Uploading…</Status>}
-                        {success && <Status className="box__success">Done!</Status>}
-                        {error && <Status className="box__error">Error! <span>{error}</span></Status>}
-                    <Line />
-                    <ContentButton>
-                        <Exit type="button" value="Cancelar"/>
-                        <Save type="submit" value="Guardar Cambios"/>
-                    </ContentButton>
+                        <Line />
+                        <ContentButton>
+                            <Exit
+                                type="button"
+                                value="Cancelar"
+                                onClick={handleCancel}
+                            />
+                            <Save type="submit" value="Guardar Cambios" />
+                        </ContentButton>
                     </form>
                 </ContentForm>
             </ContentAcommodation>
@@ -69,6 +87,7 @@ const onSubmit = async (data) => {
     );
 }
 
+// estilos
 const Main = styled.main`
     width: 100%;
     min-height: 100vh;
@@ -80,7 +99,7 @@ const Main = styled.main`
 `;
 const ContentAcommodation = styled.section`
     width: 100%;
-    max-width: 500px; /* 🔁 Controla el ancho en pantallas grandes */
+    max-width: 500px;
     border: 1px solid #fff;
     border-radius: 10px;
     box-shadow: 2px 2px 4px rgba(20, 20, 20, 0.3);
@@ -200,6 +219,6 @@ const Save = styled.input`
     cursor: pointer;
 
     &:hover {
-        background-color: #1f2937 ;
+        background-color: #1f2937;
     }
 `;

@@ -1,10 +1,10 @@
 import React from "react";
 
-
 export default function AccommodationCard({
   title,
   address,
   description,
+  image,
   onEdit,
   onDelete,
 }) {
@@ -20,6 +20,11 @@ export default function AccommodationCard({
           <i className="fas fa-info-circle mr-2"></i>
           {description}
         </p>
+        <img
+          src={image || "/images/default.jpg"}
+          alt={title}
+          className="w-48 h-32 object-cover rounded mt-2"
+        />
       </div>
       <div className="flex gap-3 mt-1">
         <button
