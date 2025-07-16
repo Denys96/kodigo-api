@@ -15,6 +15,14 @@ Kodigo Music SPA es una **Single Page Application (SPA) moderna y responsiva** c
 
 ---
 
+## 👥 Integrantes
+
+- Michael Steven Palacios Aguilar  
+- Jonatan Ernesto Segura Reymundo  
+- Denys Alexander Hernandez Maravilla  
+
+---
+
 ## 🌐 Demo en línea
 
 [Ver proyecto en Vercel](https://kodigo-api-wheat.vercel.app/)
