@@ -12,7 +12,27 @@ Kodigo API SPA es una **Single Page Application (SPA) moderna y responsiva** des
 - styled-components para diseño personalizado y responsivo  
 - React Hook Form para validación y manejo de formularios  
 - Modularización del código para proyectos escalables y ordenados  
-- Buenas prácticas en la estructura de carpetas y organización del proyecto  
+- Buenas prácticas en la estructura de carpetas y organización del proyecto
+
+---
+## 👤 Usuarios de prueba
+
+A continuación, los usuarios de prueba con sus contraseñas hasheadas:
+
+abner95@example.com
+$2y$12$uYSt7J5Zwqho9cUpTkWCW.I4OVojaUjwxHMBZs4DBc48xvH.6Rnxa
+
+dicki.alexa@example.org
+$2y$12$uYSt7J5Zwqho9cUpTkWCW.I4OVojaUjwxHMBZs4DBc48xvH.6Rnxa
+
+nitzsche.americo@example.net
+$2y$12$uYSt7J5Zwqho9cUpTkWCW.I4OVojaUjwxHMBZs4DBc48xvH.6Rnxa
+
+kade40@example.com
+$2y$12$uYSt7J5Zwqho9cUpTkWCW.I4OVojaUjwxHMBZs4DBc48xvH.6Rnxa
+
+barbara.kemmer@example.net
+$2y$12$uYSt7J5Zwqho9cUpTkWCW.I4OVojaUjwxHMBZs4DBc48xvH.6Rnxa
 
 ---
 
